@@ -1,1 +1,1 @@
-<h1>Halo, adit <?= $nama; ?> </h1>
+<h1>Halo, <?= $nama; ?> </h1>

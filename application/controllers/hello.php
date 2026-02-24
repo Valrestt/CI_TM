@@ -1,8 +1,14 @@
 <?php
-class hello extends CI_controller{
+
+class hello extends CI_Controller{
     public function index()
     {
-        $data['nama'] = "aditya pratama";
+        $data['nama'] = "ADITYA PRATAMA";
+        $this->load->view('hello_view',$data);
+    }
+    public function namasaya()
+    {
+        $data['nama'] = "Adit";
         $this->load->view('hello_view',$data);
     }
 }
