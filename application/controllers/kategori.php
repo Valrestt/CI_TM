@@ -20,6 +20,7 @@ class kategori extends CI_Controller{
     }
     public function tambah()
     {
+        
         $this->load->view('kategori/tambah');
     }
     public function simpan()
