@@ -54,7 +54,7 @@
                 </div>
 
                 <hr>
-                <button type="submit" class="btn btn-primary">Simpan Buku</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
                 <a href="<?= site_url('buku'); ?>" class="btn btn-secondary">Kembali</a>
             </form>
         </div>
