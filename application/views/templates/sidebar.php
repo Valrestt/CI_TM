@@ -22,6 +22,13 @@
 </a>
 </li>
 
+<li class="nav-item">
+    <a class="nav-link" href="<?= base_url('buku'); ?>">
+        <i class="fas fa-fw fa-book"></i>
+        <span>Data Buku</span>
+    </a>
+</li>   
+
 </ul>
 <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
