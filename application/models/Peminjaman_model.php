@@ -6,12 +6,14 @@ class peminjaman_model extends CI_model{
     private $table = ('peminjaman');
 
     public function get_all()
-    {
-        $this->db->select('peminjaman.*,anggota.nama');
-        $this->db->from('peminjaman');
-        $this->db->join('anggota','anggota_id = peminjaman.anggota_id');
-        return $this->db->get()->result();
-    }
+{
+    $this->db->select('peminjaman.*, anggota.nama');
+    $this->db->from('peminjaman');
+    $this->db->join('anggota', 'anggota.id = peminjaman.anggota_id', 'left');
+    $this->db->group_by('peminjaman.id');
+
+    return $this->db->get()->result();
+}
 
     public function insert($data,$buku_id)
     {
@@ -24,15 +26,15 @@ class peminjaman_model extends CI_model{
             'qty' => 1
         ]);
         $this->db->set('stok','stok -1',FALSE);
-        $this->db->where('id_buku',$buku_id);
+        $this->db->where('kode_buku',$buku_id);
         $this->db->update('buku');
     }
 
-    public function get_detail()
+    public function get_detail($id)
     {
-        $this->db->get('detail_peminjaman.*,buku.judul_buku');        
+        $this->db->select('detail_peminjaman.*,buku.judul');        
         $this->db->from('detail_peminjaman');
-        $this->db->join('buku','buku.id_buku = detail_peminjaman.buku_id');
+        $this->db->join('buku','buku.kode_buku = detail_peminjaman.buku_id');
         $this->db->where('peminjaman_id',$id);
         return $this->db->get()->row();       
 
@@ -67,7 +69,7 @@ class peminjaman_model extends CI_model{
 
         //update stok
         $this->db->set('stok','stok + 1', FALSE);
-        $this->db->where('id_buku',$detail->buku_id);
+        $this->db->where('kode_buku',$detail->buku_id);
         $this->db->update('buku');
     }
 }

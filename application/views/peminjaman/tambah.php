@@ -7,18 +7,21 @@
 
                 <div class="form-group mb-3">
                     <label>Anggota</label><br>
-                    <select name="anggota_id" class="form-control">
-                        <?php foreach($anggota as $a) : ?>
-                        <option value = "<? $a->id; ?>"><?= $a->nama; ?></option>
-                        <?php endforeach; ?>
-                        </select>
+                    <select name="anggota_id" class="form-control" required>
+                    <option value="">-- Pilih Anggota --</option>
+                    <?php foreach($anggota as $a) : ?>
+                    <option value="<?= $a->id; ?>">
+                    <?= $a->nama; ?>
+                    </option>
+                    <?php endforeach; ?>
+                    </select>
                 </div>
 
                 <div class="form-group mb-3">
                     <label>Buku</label><br>
                     <select name="buku_id" class="form-control">
                         <?php foreach($buku as $b) : ?>
-                        <option value = "<?= $b->id_buku; ?>"><?= $b->judul_buku; ?></option>
+                        <option value = "<?= $b->kode_buku; ?>"><?= $b->judul; ?></option>
                         <?php endforeach; ?>
                         </select>
                 </div>

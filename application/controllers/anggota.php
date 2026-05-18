@@ -57,7 +57,7 @@ class anggota extends CI_Controller{
             // $this->session->set_flashdata('error','Kategori tidak bisa dihapus karena masih digunakan');
         // }else {
             $this->anggota_model->delete($id);
-             $this->session->set_flashdata('swal', [
+            $this->session->set_flashdata('swal', [
         'icon' => 'success',
         'title' => 'Dihapus!',
         'text' => 'Data anggota berhasil dihapus'
@@ -76,22 +76,19 @@ class anggota extends CI_Controller{
 
     }
     public function update($id)
-    {
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('nama','Nama','required');
-        if($this->form_validation->run()==FALSE){
-            redirect('anggota/edit/'.$id);
-        }else{
-            $data=[
-                'nomor_anggota'=> $this->input->post('nomor_anggota'),
-                'nama'=>$this->input->post('nama'),
-                'telepon'=> $this->input->post('telepon'),
-                'email'=> $this->input->post('email'),
-                'status'=> $this->input->post('status'),
-            ];
-            $this->anggota_model->update($id,$data);
-            $this->session->set_flashdata('succes','Data Berhasil Di Update');
-            redirect('anggota');
-        }
-    }
+{
+    $data = [
+        'nama'   => $this->input->post('nama'),
+        'alamat' => $this->input->post('alamat'),
+        'telepon' => $this->input->post('telepon'),
+        'email'  => $this->input->post('email'),
+        'tanggal_daftar' => $this->input->post('tanggal_daftar'),
+        'status' => $this->input->post('status')
+    ];
+
+    $this->db->where('id', $id);
+    $this->db->update('anggota', $data);
+
+    redirect('anggota');
+}
 }
