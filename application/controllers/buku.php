@@ -90,26 +90,24 @@ class Buku extends CI_Controller {
 
     // 🔹 UPDATE DATA
     public function update($id)
-    {
-        $this->form_validation->set_rules('kode_buku', 'Kode Buku', 'required');
-        $this->form_validation->set_rules('judul', 'Judul', 'required');
+{
+    $this->form_validation->set_rules('judul', 'Judul', 'required');
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->edit($id);
-        } else {
-            $data = [
-                'kode_buku' => $this->input->post('kode_buku'),
-                'judul' => $this->input->post('judul'),
-                'penulis' => $this->input->post('penulis'),
-                'penerbit' => $this->input->post('penerbit'),
-                'tahun' => $this->input->post('tahun'),
-                'id_kategori' => $this->input->post('kategori'),
-                'stok' => $this->input->post('stok'),
-                'lokasi_rak' => $this->input->post('lokasi_rak')
-            ];
+    if ($this->form_validation->run() == FALSE) {
+        $this->edit($id);
+    } else {
+        $data = [
+            'judul'      => $this->input->post('judul'),
+            'penulis'    => $this->input->post('penulis'),
+            'penerbit'   => $this->input->post('penerbit'),
+            'tahun'      => $this->input->post('tahun'),
+            'kategori'   => $this->input->post('kategori'),
+            'stok'       => $this->input->post('stok'),
+            'lokasi_rak' => $this->input->post('lokasi_rak')
+        ];
 
-            $this->Buku_model->update($id, $data);
-            redirect('buku');
+        $this->Buku_model->update($id, $data);
+        redirect('buku');
         }
     }
 }

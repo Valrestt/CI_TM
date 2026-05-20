@@ -90,18 +90,45 @@
     </li>
 
     <!-- Laporan Peminjaman -->
-    <li class="nav-item <?= ($this->uri->segment(1) == 'laporan') ? 'active' : '' ?>">
+    <li class="nav-item <?= ($this->uri->segment(2) == 'peminjaman') ? 'active' : '' ?>">
 
-        <a class="nav-link"
-           href="<?= base_url('laporan/peminjaman'); ?>">
+    <a class="nav-link"
+       href="<?= base_url('laporan/peminjaman'); ?>">
 
-            <i class="fas fa-fw fa-book"></i>
+        <i class="fas fa-fw fa-book"></i>
 
-            <span>Laporan Peminjaman</span>
+        <span>Laporan Peminjaman</span>
 
-        </a>
+    </a>
 
-    </li>
+</li>
+
+        <!-- Laporan Anggota -->
+<li class="nav-item <?= ($this->uri->segment(2) == 'anggota') ? 'active' : '' ?>">
+
+    <a class="nav-link"
+    href="<?= base_url('laporan/anggota'); ?>">
+
+        <i class="fas fa-fw fa-users"></i>
+
+        <span>Laporan Anggota</span>
+
+    </a>
+
+</li>
+
+<!-- Laporan Buku -->
+<li class="nav-item <?= ($this->uri->segment(2) == 'buku') ? 'active' : '' ?>">
+
+    <a class="nav-link"
+    href="<?= base_url('laporan/buku'); ?>">
+
+        <i class="fas fa-fw fa-book"></i>
+
+        <span>Laporan Buku</span>
+
+    </a>
+</li>
 
 </ul>
 

@@ -5,101 +5,167 @@
 
         <a href="<?= site_url('peminjaman/tambah'); ?>" 
         class="btn btn-primary shadow-sm">
-            <i class="fas fa-plus"></i> Tambah Peminjaman
+            <i class="fas fa-plus"></i> Tambah
         </a>
     </div>
 
+    <!-- Card Tabel -->
     <div class="card shadow mb-4">
 
-        <div class="card-header py-3">
+        <!-- Header Card -->
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+
             <h6 class="m-0 font-weight-bold text-primary">
-                Daftar Data Peminjaman
+                Data Peminjaman Buku
             </h6>
+
+            <div class="d-flex align-items-center">
+
+                <!-- Search -->
+                <input type="text"
+                    class="form-control form-control-sm mr-2"
+                    placeholder="Cari data..."
+                    onkeyup="cariData(this.value)">
+
+                <!-- Jumlah Data -->
+                <span id="jumlahData"
+                    class="badge badge-primary p-2">
+                </span>
+
+            </div>
         </div>
 
         <div class="card-body">
-
             <div class="table-responsive">
+                <?php if($this->session->flashdata('success')): ?>
+                    <div class="alert alert-success alert-dismissible fade show">
+                        <?= $this->session->flashdata('success'); ?>
+                        <button type="button"
+                                class="close"
+                                data-dismiss="alert">
+                            <span>&times;</span>
+                        </button>
+
+                    </div>
+                <?php endif; ?>
+
+                <?php if($this->session->flashdata('error')): ?>
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        <?= $this->session->flashdata('error'); ?>
+                        <button type="button"
+                                class="close"
+                                data-dismiss="alert">
+                            <span>&times;</span>
+                        </button>
+
+                    </div>
+                <?php endif; ?>
 
                 <table class="table table-bordered table-hover"
                     id="dataTable"
                     width="100%"
                     cellspacing="0">
-
-                    <thead class="thead-dark text-center">
+                    <thead class="thead-dark">
 
                         <tr>
-                            <th width="5%">No</th>
-                            <th>Kode</th>
-                            <th>Nama</th>
-                            <th>Tanggal</th>
+                            <th>No</th>
+                            <th>Kode Peminjaman</th>
+                            <th>Nama Anggota</th>
+                            <th>Tanggal Pinjam</th>
+                            <th>Jatuh Tempo</th>
                             <th>Status</th>
-                            <th width="15%">Aksi</th>
+                            <th>Keterlambatan</th>
+                            <th>Aksi</th>
                         </tr>
-
                     </thead>
 
                     <tbody>
-
-                    <?php $no=1; foreach($data as $d): ?>
+                        <?php $no = 1; foreach($data as $d): ?>
 
                         <tr>
-
-                            <td class="text-center"><?= $no++ ?></td>
-
-                            <td>
-                                <code><?= $d->kode_peminjaman; ?></code>
-                            </td>
-
+                            <td><?= $no++ ?></td>
+                            <td><?= $d->kode_peminjaman; ?></td>
                             <td><?= $d->nama; ?></td>
+                            <td><?= $d->tanggal_pinjam; ?></td>
+                            <td><?= $d->tanggal_jatuh_tempo; ?></td>
+                            <td>
 
-                            <td class="text-center">
-                                <?= $d->tanggal_pinjam; ?>
-                            </td>
-
-                            <td class="text-center">
-
-                                <?php if($d->status =='dipinjam'): ?>
-
-                                    <span class="badge badge-warning px-3 py-2">
+                                <?php if($d->status == 'dipinjam'): ?>
+                                    <span class="badge badge-warning">
                                         Dipinjam
                                     </span>
 
                                 <?php else: ?>
-
-                                    <span class="badge badge-success px-3 py-2">
+                                    <span class="badge badge-success">
                                         Dikembalikan
                                     </span>
 
                                 <?php endif; ?>
-
                             </td>
 
-                            <td class="text-center">
+                            <td>
+                                <?php
+                                $today = date('Y-m-d');
 
-                                <?php if($d->status =='dipinjam'): ?>
+                                // PERBAIKAN
+                                $selisih = strtotime($today) - strtotime($d->tanggal_jatuh_tempo);
+                                $terlambat = $selisih > 0
+                                    ? floor($selisih / 86400)
+                                    : 0;
+                                ?>
 
-                                    <a href="<?= site_url('peminjaman/kembali/'. $d->id); ?>"
-                                    class="btn btn-success btn-sm">
+                                <?php if($terlambat > 0): ?>
+                                    <span class="badge badge-danger">
+                                        <?= $terlambat; ?> Hari
+                                    </span>
+                                <?php else: ?>
+                                    <span class="badge badge-success">
+                                        Tepat Waktu
+                                    </span>
+                                <?php endif; ?>
+                            </td>
+
+                            <td>
+                                <?php if($d->status == 'dipinjam'): ?>
+                                    <a href="<?= site_url('peminjaman/kembali/'.$d->id); ?>"
+                                    class="btn btn-success btn-sm"
+                                    onclick="return confirm('Konfirmasi pengembalian buku ini?')">
                                         Kembalikan
+
+                                    </a>
+                                    <a href="<?= site_url('whatsapp/kirim_notifikasi/'.$d->id); ?>"
+                                    class="btn btn-warning btn-sm">
+                                        <i class="fab fa-whatsapp"></i>
+                                        Kirim WA
+
                                     </a>
 
                                 <?php endif; ?>
 
                             </td>
-
                         </tr>
 
-                    <?php endforeach; ?>
-
+                        <?php endforeach; ?>
                     </tbody>
-
                 </table>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
+
+<script>
+    const rows = document.querySelectorAll('#dataTable tbody tr');
+    document.getElementById('jumlahData').innerText =
+        rows.length + ' data';
+
+    function cariData(keyword) {
+        const filter = keyword.toLowerCase();
+
+        rows.forEach(row => {
+            row.style.display =
+                row.innerText.toLowerCase().includes(filter)
+                ? ''
+                : 'none';
+        });
+    }
+</script>

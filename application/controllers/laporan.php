@@ -12,6 +12,28 @@ class laporan extends CI_Controller {
         }
     }
 
+    public function anggota()
+{
+    $data['anggota'] = $this->db->get('anggota')->result();
+
+    $this->load->view('templates/header');
+    $this->load->view('templates/sidebar');
+    $this->load->view('templates/topbar');
+    $this->load->view('laporan/anggota', $data);
+    $this->load->view('templates/footer');
+}
+
+public function buku()
+{
+    $data['buku'] = $this->db->get('buku')->result();
+
+    $this->load->view('templates/header');
+    $this->load->view('templates/sidebar');
+    $this->load->view('templates/topbar');
+    $this->load->view('laporan/buku', $data);
+    $this->load->view('templates/footer');
+}
+
     public function peminjaman()
 {
     $bulan = $this->input->get('bulan');
@@ -64,5 +86,18 @@ class laporan extends CI_Controller {
     $data['bulan'] = $bulan;
 
     $this->load->view('laporan/cetak_pinjam', $data);
+    }
+
+    public function cetak_anggota()
+    {
+        $data['anggota'] = $this->db->get('anggota')->result();
+        $this->load->view('laporan/cetak_anggota', $data);
+    }
+
+    public function cetak_buku()
+{
+    $data['buku'] = $this->db->get('buku')->result();
+    $this->load->view('laporan/cetak_buku', $data);
 }
+    
 }

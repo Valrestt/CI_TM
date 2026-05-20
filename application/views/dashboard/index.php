@@ -2,7 +2,7 @@
 
 <div class="row">
     <!-- Kategori -->
-     <div class="cool-xl-4 col-md-6 mb-4">
+    <div class="cool-xl-4 col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
             <div class="card body">
                 <h5> "Total Kategori"</h5>
@@ -11,7 +11,7 @@
         </div>
     </div>
     <!-- Anggota -->
-     <div class="cool-xl-4 col-md-6 mb-4">
+    <div class="cool-xl-4 col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
             <div class="card body">
                 <h5> "Total Buku"</h5>
